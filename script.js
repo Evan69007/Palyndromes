@@ -54,4 +54,24 @@ function isValidDate(Date) {
 	return (true)
 }
 
-console.log(isValidDate("28/02/1000"));
+function isPalyndrome(Date)
+{
+	let DateWithoutSlash
+	if (!isValidDate(Date))
+	{
+		return (false)
+	}
+	DateWithoutSlash = Date.slice(0, 2) + Date.slice(3, 5) + Date.slice(6, 10)
+	let i = 0
+	let y = DateWithoutSlash.length - 1
+	while(i < DateWithoutSlash.length / 2)
+	{
+		if (DateWithoutSlash.charAt(i) != DateWithoutSlash.charAt(y))
+		{
+			return (false)
+		}
+		i++
+		y--
+	}
+	return (true)
+}
