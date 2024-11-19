@@ -81,8 +81,6 @@ function isDatePalyndrome(Date)
 	return (isPalyndrome(str))
 }
 
-console.log(isDatePalyndrome("22/02/2022"));
-
 function getNextPalyndromes(nb)
 {
 	let i = 0
