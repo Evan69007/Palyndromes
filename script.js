@@ -54,14 +54,8 @@ function isValidDate(Date) {
 	return (true)
 }
 
-function isPalyndrome(Date)
-{
-	let str
-	if (!isValidDate(Date))
-	{
-		return (false)
-	}
-	str = Date.slice(0, 2) + Date.slice(3, 5) + Date.slice(6, 10)
+function isPalyndrome(str)
+{	
 	let i = 0
 	let y = str.length - 1
 	while(i < str.length / 2)
@@ -76,7 +70,20 @@ function isPalyndrome(Date)
 	return (true)
 }
 
-function getNextPalyndrome(nb)
+function isDatePalyndrome(Date)
+{
+	let str
+	if (!isValidDate(Date))
+	{
+		return (false)
+	}
+	str = Date.slice(0, 2) + Date.slice(3, 5) + Date.slice(6, 10)
+	return (isPalyndrome(str))
+}
+
+console.log(isDatePalyndrome("22/02/2022"));
+
+function getNextPalyndromes(nb)
 {
 	let i = 0
 	const today = new Date();
@@ -96,7 +103,7 @@ function getNextPalyndrome(nb)
 	let formattedToday = day + '/' + month + '/' + year;
 	while(i < nb)
 	{
-		while(!isPalyndrome(formattedToday))
+		while(!isDatePalyndrome(formattedToday))
 		{
 			if (day == maxDaysInMonth(month, formattedToday.slice(6, 10)))
 			{
@@ -139,5 +146,3 @@ function getNextPalyndrome(nb)
 		formattedToday = day + '/' + month + '/' + year;
 	}
 }
-
-getNextPalyndrome(24)
