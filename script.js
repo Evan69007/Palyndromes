@@ -55,7 +55,11 @@ function isValidDate(Date) {
 }
 
 function isPalyndrome(str)
-{	
+{
+	if (str.length < 2)
+	{
+		return (true)
+	}
 	let i = 0
 	let y = str.length - 1
 	while(i < str.length / 2)
