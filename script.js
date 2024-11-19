@@ -56,17 +56,17 @@ function isValidDate(Date) {
 
 function isPalyndrome(Date)
 {
-	let DateWithoutSlash
+	let str
 	if (!isValidDate(Date))
 	{
 		return (false)
 	}
-	DateWithoutSlash = Date.slice(0, 2) + Date.slice(3, 5) + Date.slice(6, 10)
+	str = Date.slice(0, 2) + Date.slice(3, 5) + Date.slice(6, 10)
 	let i = 0
-	let y = DateWithoutSlash.length - 1
-	while(i < DateWithoutSlash.length / 2)
+	let y = str.length - 1
+	while(i < str.length / 2)
 	{
-		if (DateWithoutSlash.charAt(i) != DateWithoutSlash.charAt(y))
+		if (str.charAt(i) != str.charAt(y))
 		{
 			return (false)
 		}
@@ -75,3 +75,69 @@ function isPalyndrome(Date)
 	}
 	return (true)
 }
+
+function getNextPalyndrome(nb)
+{
+	let i = 0
+	const today = new Date();
+	let year = today.getFullYear();
+	let month = today.getMonth() + 1; // Months start at 0!
+	let day = today.getDate();
+
+	if (day < 10) 
+	{
+		day = '0' + day;
+	}
+	if (month < 10)
+	{
+		month = '0' + month;
+	}
+
+	let formattedToday = day + '/' + month + '/' + year;
+	while(i < nb)
+	{
+		while(!isPalyndrome(formattedToday))
+		{
+			if (day == maxDaysInMonth(month, formattedToday.slice(6, 10)))
+			{
+				day = "01"
+				if (month == "12")
+				{
+					month = "01"
+					year++
+				}
+				else
+				{
+					month++
+				}
+			}
+			else
+			{
+				day++
+			}
+			formattedToday = day + '/' + month + '/' + year;
+		}
+		console.log(formattedToday);
+		i++
+		if (day == maxDaysInMonth(month, formattedToday.slice(6, 10)))
+			{
+				day = "01"
+				if (month == "12")
+				{
+					month = "01"
+					year++
+				}
+				else
+				{
+					month++
+				}
+			}
+		else
+		{
+			day++
+		}
+		formattedToday = day + '/' + month + '/' + year;
+	}
+}
+
+getNextPalyndrome(24)
