@@ -1,13 +1,12 @@
 function maxDaysInMonth(month, year)
 {
-	const end_year = year.slice(2, 4)
 	if (month == "01" || month == "03" || month == "05" || month == "07" || month == "08" || month == "10" || month == "12")
 	{
 		return (31)
 	}
 	else if (month == "02")
 	{
-		if (end_year == "00" || end_year % 4 == 0)
+		if (year % 4 == 0)
 		{
 			return (29)
 		}
@@ -22,95 +21,68 @@ function maxDaysInMonth(month, year)
 	}
 }
 
-function isValidDate(Date) {
-	let day
-	let month
-	let year
-	let nb_max_day
-	if (Date.length !== 10)
+function isValidDate(date)
+{
+	if (date.length != 10)
 	{
 		return (false)
 	}
-	day = Date.slice(0, 2)
-	month = Date.slice(3, 5)
-	year = Date.slice(6, 10)
-	nb_max_day = maxDaysInMonth(month, year)
-	if (Date.charAt(2) !== '/' || Date.charAt(5) !== '/')
+	if (date.charAt(2) != "/" || date.charAt(5) != "/")
 	{
 		return (false)
 	}
-	if (month > "12" || month < "01")
+	let dateArray = date.split("/")
+	if (dateArray[0] < 1 || dateArray[0] > maxDaysInMonth(dateArray[1], dateArray[2]))
 	{
 		return (false)
 	}
-	if (day < "01" || day > nb_max_day)
-	{
-		return (false)
-	}
-	if (year < "1000" || year > "9999")
+	let newDate = `${dateArray[2]}/${dateArray[1]}/${dateArray[0]}`
+	if (!new Date(newDate))
 	{
 		return (false)
 	}
 	return (true)
+}
+
+function cleanDate(date)
+{
+	const dateArray = date.split("/")
+	return (dateArray.join(""))
 }
 
 function isPalyndrome(str)
 {
-	if (str.length < 2)
-	{
-		return (true)
-	}
-	let i = 0
-	let y = str.length - 1
-	while(i < str.length / 2)
-	{
-		if (str.charAt(i) != str.charAt(y))
+	const strReverse = str.split("").reverse().join("")
+	return (str == strReverse)
+}
+
+function isDatePalyndrome(date)
+{
+	if (!isValidDate(date))
 		{
 			return (false)
 		}
-		i++
-		y--
-	}
-	return (true)
-}
-
-function isDatePalyndrome(Date)
-{
-	let str
-	if (!isValidDate(Date))
-	{
-		return (false)
-	}
-	str = Date.slice(0, 2) + Date.slice(3, 5) + Date.slice(6, 10)
-	return (isPalyndrome(str))
+	const dateClean = cleanDate(date)
+	return (isPalyndrome(dateClean))
 }
 
 function getNextPalyndromes(nb)
 {
 	let i = 0
 	const today = new Date();
-	let year = today.getFullYear();
-	let month = today.getMonth() + 1; // Months start at 0!
-	let day = today.getDate();
-
-	if (day < 10) 
+	let day = today.getUTCDate().toString();
+	let month = (today.getUTCMonth() + 1).toString(); // month start at 0
+	let year = today.getUTCFullYear().toString();
+	let date = day + '/' + month + '/' + year;
+	let dateArray = date.split('/')
+	while (i < nb)
 	{
-		day = '0' + day;
-	}
-	if (month < 10)
-	{
-		month = '0' + month;
-	}
-
-	let formattedToday = day + '/' + month + '/' + year;
-	while(i < nb)
-	{
-		while(!isDatePalyndrome(formattedToday))
+		while (!(isDatePalyndrome(date)))
 		{
-			if (day == maxDaysInMonth(month, formattedToday.slice(6, 10)))
+			if (day >= maxDaysInMonth(dateArray[1], dateArray[2]))
 			{
 				day = "01"
-				if (month == "12")
+				if (month == 12)
 				{
 					month = "01"
 					year++
@@ -118,33 +90,37 @@ function getNextPalyndromes(nb)
 				else
 				{
 					month++
+					if (month < 10)
+					{
+						month = '0' + month
+					}
+					else
+					{
+						month = month.toString()
+					}
 				}
 			}
 			else
 			{
 				day++
-			}
-			formattedToday = day + '/' + month + '/' + year;
-		}
-		console.log(formattedToday);
-		i++
-		if (day == maxDaysInMonth(month, formattedToday.slice(6, 10)))
-			{
-				day = "01"
-				if (month == "12")
+				if (day < 10)
 				{
-					month = "01"
-					year++
+					day = '0' + day
 				}
 				else
 				{
-					month++
+					day = day.toString()
 				}
 			}
-		else
-		{
-			day++
+			date = day + '/' + month + '/' + year;
+			dateArray = date.split('/')
 		}
-		formattedToday = day + '/' + month + '/' + year;
+		console.log(date);
+		i++
+		day++
+		date = day + '/' + month + '/' + year;
+		dateArray = date.split('/')
 	}
 }
+
+getNextPalyndromes(8)
