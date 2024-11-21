@@ -114,6 +114,10 @@ function getNextPalyndromes(nb)
 			}
 			date = day + '/' + month + '/' + year;
 			dateArray = date.split('/')
+			if (year > 9999)
+			{
+				return
+			}
 		}
 		console.log(date);
 		i++
@@ -123,4 +127,4 @@ function getNextPalyndromes(nb)
 	}
 }
 
-getNextPalyndromes(8)
+getNextPalyndromes(266)  //max 266 car après année > 9999
